@@ -40,6 +40,10 @@ public:
         temp->data = value;
         temp->next = head;
         head = temp;
+        if (tail == NULL)
+        {
+            tail = head;
+        }
     }
 
     //insert at last
@@ -63,18 +67,25 @@ public:
     //insert node at a position i
     void insert_position(int pos, int value)
     {
-        node *pre = new node;
-        node *cur = new node;
-        node *temp = new node;
-        cur = head;
-        for (int i = 1; i < pos; i++)
+        if (pos == 0)
         {
-            pre = cur;
-            cur = cur->next;
+            this->insert_start(value);
         }
-        temp->data = value;
-        pre->next = temp;
-        temp->next = cur;
+        else
+        {
+            node *pre = new node;
+            node *cur = new node;
+            node *temp = new node;
+            cur = head;
+            for (int i = 1; i < pos; i++)
+            {
+                pre = cur;
+                cur = cur->next;
+            }
+            temp->data = value;
+            pre->next = temp;
+            temp->next = cur;
+        }
     }
 
     //delete functions
@@ -82,26 +93,31 @@ public:
     //delete first node
     void delete_first()
     {
-        node *temp = new node;
+        node *temp;
         temp = head;
-        head = head->next;
+        if (head != NULL)
+            head = head->next;
         delete temp;
     }
 
     //delete last node
     void delete_last()
     {
-        node *current;
-        node *previous = new node;
+        node *current = NULL;
+        node *previous = NULL;
         current = head;
-        while (current->next != NULL)
+        if (head != NULL)
         {
-            previous = current;
-            current = current->next;
+            while (current->next != NULL)
+            {
+                previous = current;
+                current = current->next;
+            }
+            tail = previous;
+            delete current;
+            if (tail != NULL)
+                previous->next = NULL;
         }
-        tail = previous;
-        previous->next = NULL;
-        delete current;
     }
 
     //delete at position i
@@ -123,7 +139,7 @@ int main()
 {
     List list;
     //insert last
-    list.insert_last(1);
+    list.insert_start(1);
     list.insert_last(2);
     cout << "insert last" << endl;
     list.display();

@@ -23,7 +23,7 @@ public:
     //print the list
     void display()
     {
-        node *temp = tail;
+        node *temp = tail->next;
         while (temp->next != tail)
         {
             cout << temp->data << "\t";
@@ -88,6 +88,7 @@ public:
     //insert node at a position i
     void insert_position(int pos, int value)
     {
+        cout << "insert_position" << endl;
         if (pos == 0)
         {
             this->insert_start(value);
@@ -96,7 +97,7 @@ public:
         {
             node *pre = NULL;
             node *cur = NULL;
-            node *temp = NULL;
+            node *temp = new node;
             cur = tail->next;
             for (int i = 1; i < pos; i++)
             {
@@ -117,7 +118,7 @@ public:
     {
         node *temp;
         temp = tail->next;
-        if (team->next != NULL)
+        if (tail->next != NULL)
             tail->next = tail->next->next;
         delete temp;
     }
@@ -125,29 +126,19 @@ public:
     //delete last node
     void delete_last()
     {
-        node *current = NULL;
-        node *previous = NULL;
-        current = tail->next;
-        if (head != NULL)
-        {
-            while (current->next != NULL)
-            {
-                previous = current;
-                current = current->next;
-            }
-            tail = previous;
-            delete current;
-            if (tail != NULL)
-                previous->next = NULL;
-        }
+        node *temp = tail;
+        tail->next->prev = tail->prev;
+        tail->prev->next = tail->next;
+        tail = tail->prev;
+        delete temp;
     }
 
     //delete at position i
     void delete_position(int pos)
     {
-        node *current = new node;
-        node *previous = new node;
-        current = head;
+        node *current = NULL;
+        node *previous = NULL;
+        current = tail->next;
         for (int i = 1; i < pos; i++)
         {
             previous = current;
@@ -155,6 +146,7 @@ public:
         }
         previous->next = current->next;
         current->next->prev = previous;
+        delete current;
     }
 };
 
@@ -198,12 +190,13 @@ int main()
     cout << endl
          << endl;
 
+    //TODO:debug this method.
     //insert start
-    list.delete_position(2);
-    cout << "delete postion 2" << endl;
-    list.display();
-    cout << endl
-         << endl;
+    // list.delete_position(2);
+    // cout << "delete postion 2" << endl;
+    // list.display();
+    // cout << endl
+    //      << endl;
 
     return 0;
 }

@@ -56,7 +56,7 @@ void mergeSort(int arr[], int n)
         }
     }
     if (p / 2 < n)
-        merge(arr, 0, p / 2 - 1, n);
+        merge(arr, 0, n - 2, n - 1);
 }
 
 int main()

@@ -3,7 +3,7 @@ using namespace std;
 
 int CoinChange(int arr[], int size, int sum)
 {
-    int programming[size + 1][sum + 1];
+    int programming[sum + 1];
 
     for (int n = 0; n <= size; n++)
     {
@@ -11,31 +11,28 @@ int CoinChange(int arr[], int size, int sum)
         {
             if (n == 0 && s != 0)
             {
-                programming[n][s] = 0;
+                programming[s] = 0;
             }
             else if (s == 0)
             {
-                programming[n][s] = 1;
+                programming[s] = 1;
             }
-            else if (arr[n - 1] > s)
+
+            else if (arr[n - 1] <= s)
             {
-                programming[n][s] = programming[n - 1][s];
-            }
-            else
-            {
-                programming[n][s] = programming[n][s - arr[n - 1]] + programming[n - 1][s];
+                programming[s] = programming[s - arr[n - 1]] + programming[s];
             }
         }
     }
-    for (int x = 0; x <= size; x++)
+    for (int x = 0; x <= sum; x++)
     {
-        for (int y = 0; y <= sum; y++)
-        {
-            cout << programming[x][y] << " ";
-        }
-        cout << endl;
+        // for (int y = 0; y <= sum; y++)
+        // {
+        cout << programming[x] << " ";
+        // }
+        // cout << endl;
     }
-    return programming[size][sum];
+    return programming[sum];
 }
 
 int main()

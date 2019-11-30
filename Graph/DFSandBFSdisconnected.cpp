@@ -72,6 +72,39 @@ void DFS(int **edges, int n)
     delete[] visited;
 }
 
+bool hasPath_helper(int **edges, int n, int sv, bool *visited, int e)
+{
+    // cout << sv << endl;
+    if (sv == e)
+        return true;
+    visited[sv] = true;
+    for (int i = 0; i < n; i++)
+    {
+        if (i == sv)
+            continue;
+        if (edges[sv][i] == 1)
+        {
+            if (visited[i])
+                continue;
+            bool res = hasPath_helper(edges, n, i, visited, e);
+            if (res == true)
+                return true;
+        }
+    }
+    return false;
+}
+
+bool hasPath(int **edges, int n, int edge1, int edge2)
+{
+    bool *visited = new bool[n];
+    for (int i = 0; i < n; i++)
+    {
+        visited[i] = false;
+    }
+    return hasPath_helper(edges, n, edge1, visited, edge2);
+    delete[] visited;
+}
+
 int main()
 {
     int n;
@@ -102,6 +135,15 @@ int main()
     //BFS
     cout << "BFS" << endl;
     BFS(edges, n);
+
+    //hasPath
+    cout << "hasPath" << endl;
+    while (true)
+    {
+        int e1, e2;
+        cin >> e1 >> e2;
+        cout << hasPath(edges, n, e1, e2) << endl;
+    }
 
     for (int i = 0; i < n; i++)
     {
